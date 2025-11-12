@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de Obras</title>
+    <style>
+        :root {
+  /* Primitive Color Tokens */
+  --color-white: rgba(255, 255, 255, 1);
+  --color-black: rgba(0, 0, 0, 1);
+  --color-cream-50: rgba(252, 252, 249, 1);
+  --color-cream-100: rgba(255, 255, 253, 1);
+  --color-gray-200: rgba(245, 245, 245, 1);
+  --color-gray-300: rgba(167, 169, 169, 1);
+  --color-gray-400: rgba(119, 124, 124, 1);
+  --color-slate-500: rgba(98, 108, 113, 1);
+  --color-brown-600: rgba(94, 82, 64, 1);
+  --color-charcoal-700: rgba(31, 33, 33, 1);
+  --color-charcoal-800: rgba(38, 40, 40, 1);
+  --color-slate-900: rgba(19, 52, 59, 1);
+  --color-teal-300: rgba(50, 184, 198, 1);
+  --color-teal-400: rgba(45, 166, 178, 1);
+  --color-teal-500: rgba(33, 128, 141, 1);
+  --color-teal-600: rgba(29, 116, 128, 1);
+  --color-teal-700: rgba(26, 104, 115, 1);
+  --color-teal-800: rgba(41, 150, 161, 1);
+  --color-red-400: rgba(255, 84, 89, 1);
+  --color-red-500: rgba(192, 21, 47, 1);
+  --color-orange-400: rgba(230, 129, 97, 1);
+  --color-orange-500: rgba(168, 75, 47, 1);
+
+  /* RGB versions for opacity control */
+  --color-brown-600-rgb: 94, 82, 64;
+  --color-teal-500-rgb: 33, 128, 141;
+  --color-slate-900-rgb: 19, 52, 59;
+  --color-slate-500-rgb: 98, 108, 113;
+  --color-red-500-rgb: 192, 21, 47;
+  --color-red-400-rgb: 255, 84, 89;
+  --color-orange-500-rgb: 168, 75, 47;
+  --color-orange-400-rgb: 230, 129, 97;
+
+  /* Background color tokens (Light Mode) */
+  --color-bg-1: rgba(59, 130, 246, 0.08);
+  --color-bg-2: rgba(245, 158, 11, 0.08);
+  --color-bg-3: rgba(34, 197, 94, 0.08);
+  --color-bg-4: rgba(239, 68, 68, 0.08);
+  --color-bg-5: rgba(147, 51, 234, 0.08);
+  --color-bg-6: rgba(249, 115, 22, 0.08);
+  --color-bg-7: rgba(236, 72, 153, 0.08);
+  --color-bg-8: rgba(6, 182, 212, 0.08);
+
+  /* Semantic Color Tokens (Light Mode) */
+  --color-background: var(--color-cream-50);
+  --color-surface: var(--color-cream-100);
+  --color-text: var(--color-slate-900);
+  --color-text-secondary: var(--color-slate-500);
+  --color-primary: var(--color-teal-500);
+  --color-primary-hover: var(--color-teal-600);
+  --color-primary-active: var(--color-teal-700);
+  --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
+  --color-secondary-active: rgba(var(--color-brown-600-rgb), 0.25);
+  --color-border: rgba(var(--color-brown-600-rgb), 0.2);
+  --color-btn-primary-text: var(--color-cream-50);
+  --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-card-border-inner: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-error: var(--color-red-500);
+  --color-success: var(--color-teal-500);
+  --color-warning: var(--color-orange-500);
+  --color-info: var(--color-slate-500);
+  --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
+  --color-select-caret: rgba(var(--color-slate-900-rgb), 0.8);
+
+  --focus-ring: 0 0 0 3px var(--color-focus-ring);
+  --focus-outline: 2px solid var(--color-primary);
+  --status-bg-opacity: 0.15;
+  --status-border-opacity: 0.25;
+  --select-caret-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23134252' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  --select-caret-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f5f5f5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+
+  --color-success-rgb: 33, 128, 141;
+  --color-error-rgb: 192, 21, 47;
+  --color-warning-rgb: 168, 75, 47;
+  --color-info-rgb: 98, 108, 113;
+
+  /* Typography */
+  --font-family-base: "FKGroteskNeue", "Geist", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family-mono: "Berkeley Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-base: 14px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+  --font-size-2xl: 20px;
+  --font-size-3xl: 24px;
+  --font-size-4xl: 30px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 550;
+  --font-weight-bold: 600;
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --letter-spacing-tight: -0.01em;
+
+  /* Spacing */
+  --space-0: 0;
+  --space-1: 1px;
+  --space-2: 2px;
+  --space-4: 4px;
+  --space-6: 6px;
+  --space-8: 8px;
+  --space-10: 10px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+
+  /* Border Radius */
+  --radius-sm: 6px;
+  --radius-base: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+  --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 -1px 0 rgba(0, 0, 0, 0.03);
+
+  /* Animation */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Layout */
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-gray-400-rgb: 119, 124, 124;
+    --color-teal-300-rgb: 50, 184, 198;
+    --color-gray-300-rgb: 167, 169, 169;
+    --color-gray-200-rgb: 245, 245, 245;
+
+    --color-bg-1: rgba(29, 78, 216, 0.15);
+    --color-bg-2: rgba(180, 83, 9, 0.15);
+    --color-bg-3: rgba(21, 128, 61, 0.15);
+    --color-bg-4: rgba(185, 28, 28, 0.15);
+    --color-bg-5: rgba(107, 33, 168, 0.15);
+    --color-bg-6: rgba(194, 65, 12, 0.15);
+    --color-bg-7: rgba(190, 24, 93, 0.15);
+    --color-bg-8: rgba(8, 145, 178, 0.15);
+
+    --color-background: var(--color-charcoal-700);
+    --color-surface: var(--color-charcoal-800);
+    --color-text: var(--color-gray-200);
+    --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
+    --color-primary: var(--color-teal-300);
+    --color-primary-hover: var(--color-teal-400);
+    --color-primary-active: var(--color-teal-800);
+    --color-secondary: rgba(var(--color-gray-400-rgb), 0.15);
+    --color-secondary-hover: rgba(var(--color-gray-400-rgb), 0.25);
+    --color-secondary-active: rgba(var(--color-gray-400-rgb), 0.3);
+    --color-border: rgba(var(--color-gray-400-rgb), 0.3);
+    --color-error: var(--color-red-400);
+    --color-success: var(--color-teal-300);
+    --color-warning: var(--color-orange-400);
+    --color-info: var(--color-gray-300);
+    --color-focus-ring: rgba(var(--color-teal-300-rgb), 0.4);
+    --color-btn-primary-text: var(--color-slate-900);
+    --color-card-border: rgba(var(--color-gray-400-rgb), 0.2);
+    --color-card-border-inner: rgba(var(--color-gray-400-rgb), 0.15);
+    --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+    --color-border-secondary: rgba(var(--color-gray-400-rgb), 0.2);
+    --color-select-caret: rgba(var(--color-gray-200-rgb), 0.8);
+
+    --color-success-rgb: var(--color-teal-300-rgb);
+    --color-error-rgb: var(--color-red-400-rgb);
+    --color-warning-rgb: var(--color-orange-400-rgb);
+    --color-info-rgb: var(--color-gray-300-rgb);
+  }
+}
+
+@font-face {
+  font-family: 'FKGroteskNeue';
+  src: url('https://r2cdn.perplexity.ai/fonts/FKGroteskNeue.woff2') format('woff2');
+}
+
+html {
+  font-size: var(--font-size-base);
+  font-family: var(--font-family-base);
+  line-height: var(--line-height-normal);
+  color: var(--color-text);
+  background-color: var(--color-background);
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  color: var(--color-text);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+h1 { font-size: var(--font-size-4xl); }
+h2 { font-size: var(--font-size-3xl); }
+h3 { font-size: var(--font-size-2xl); }
+h4 { font-size: var(--font-size-xl); }
+h5 { font-size: var(--font-size-lg); }
+h6 { font-size: var(--font-size-md); }
+
+p {
+  margin: 0 0 var(--space-16) 0;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8) var(--space-16);
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  line-height: 1.5;
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-standard);
+  border: none;
+  text-decoration: none;
+  position: relative;
+}
+
+.btn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.btn--primary {
+  background: var(--color-primary);
+  color: var(--color-btn-primary-text);
+}
+
+.btn--primary:hover {
+  background: var(--color-primary-hover);
+}
+
+.btn--primary:active {
+  background: var(--color-primary-active);
+}
+
+.btn--secondary {
+  background: var(--color-secondary);
+  color: var(--color-text);
+}
+
+.btn--secondary:hover {
+  background: var(--color-secondary-hover);
+}
+
+.btn--sm {
+  padding: var(--space-6) var(--space-12);
+  font-size: var(--font-size-sm);
+}
+
+.btn--danger {
+  background: var(--color-error);
+  color: var(--color-white);
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: var(--space-8) var(--space-12);
+  font-size: var(--font-size-md);
+  line-height: 1.5;
+  color: var(--color-text);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-base);
+  transition: border-color var(--duration-fast) var(--ease-standard);
+}
+
+textarea.form-control {
+  font-family: var(--font-family-base);
+  resize: vertical;
+  min-height: 80px;
+}
+
+select.form-control {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: var(--select-caret-light);
+  background-repeat: no-repeat;
+  background-position: right var(--space-12) center;
+  background-size: 16px;
+  padding-right: var(--space-32);
+}
+
+@media (prefers-color-scheme: dark) {
+  select.form-control {
+    background-image: var(--select-caret-dark);
+  }
+}
+
+.form-control:focus {
+  border-color: var(--color-primary);
+  outline: var(--focus-outline);
+}
+
+.form-label {
+  display: block;
+  margin-bottom: var(--space-8);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-sm);
+}
+
+.form-group {
+  margin-bottom: var(--space-16);
+}
+
+.card {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-card-border);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: box-shadow var(--duration-normal) var(--ease-standard);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* Custom Styles */
+.app-container {
+  min-height: 100vh;
+  padding: var(--space-24);
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-32);
+  flex-wrap: wrap;
+  gap: var(--space-16);
+}
+
+.app-title {
+  font-size: var(--font-size-3xl);
+  color: var(--color-text);
+  margin: 0;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--space-20);
+  margin-bottom: var(--space-24);
+}
+
+.project-card {
+  padding: var(--space-20);
+  cursor: pointer;
+}
+
+.project-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-12);
+}
+
+.project-number {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.project-name {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  margin: var(--space-4) 0 var(--space-8) 0;
+  color: var(--color-text);
+}
+
+.project-info {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-4);
+}
+
+.progress-bar-container {
+  margin-top: var(--space-16);
+}
+
+.progress-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-6);
+  display: flex;
+  justify-content: space-between;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background-color: var(--color-secondary);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: var(--color-primary);
+  border-radius: var(--radius-full);
+  transition: width var(--duration-normal) var(--ease-standard);
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--space-16);
+}
+
+.modal {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  max-width: 800px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+}
+
+.modal-header {
+  padding: var(--space-24);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-title {
+  font-size: var(--font-size-2xl);
+  margin: 0;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: var(--font-size-2xl);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  padding: var(--space-4);
+  line-height: 1;
+}
+
+.modal-close:hover {
+  color: var(--color-text);
+}
+
+.modal-body {
+  padding: var(--space-24);
+}
+
+.modal-footer {
+  padding: var(--space-24);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  gap: var(--space-12);
+  justify-content: flex-end;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-16);
+}
+
+.form-group-full {
+  grid-column: 1 / -1;
+}
+
+.status-checklist {
+  margin-top: var(--space-24);
+}
+
+.status-checklist h4 {
+  margin-bottom: var(--space-16);
+  font-size: var(--font-size-lg);
+}
+
+.status-report-item {
+  padding: var(--space-16);
+  background-color: var(--color-background);
+  border-radius: var(--radius-base);
+  margin-bottom: var(--space-16);
+  border: 1px solid var(--color-border);
+}
+
+.status-report-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-8);
+}
+
+.status-report-name {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+}
+
+.status-percentage-display {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+}
+
+.status-report-details {
+  margin-top: var(--space-12);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.status-detail-item {
+  display: flex;
+  gap: var(--space-8);
+  font-size: var(--font-size-sm);
+}
+
+.status-detail-label {
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+  min-width: 80px;
+}
+
+.status-detail-value {
+  color: var(--color-text);
+  flex: 1;
+}
+
+.status-report-form-item {
+  padding: var(--space-16);
+  background-color: var(--color-background);
+  border-radius: var(--radius-base);
+  margin-bottom: var(--space-16);
+  border: 1px solid var(--color-border);
+}
+
+.status-report-form-header {
+  margin-bottom: var(--space-12);
+}
+
+.status-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-12);
+  margin-bottom: var(--space-8);
+}
+
+@media (max-width: 768px) {
+  .status-form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.detail-view {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-24);
+  flex-wrap: wrap;
+  gap: var(--space-16);
+}
+
+.detail-actions {
+  display: flex;
+  gap: var(--space-12);
+}
+
+.detail-card {
+  padding: var(--space-24);
+  margin-bottom: var(--space-20);
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-20);
+  margin-bottom: var(--space-24);
+}
+
+.detail-item {
+  margin-bottom: var(--space-16);
+}
+
+.detail-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-4);
+}
+
+.detail-value {
+  font-size: var(--font-size-base);
+  color: var(--color-text);
+}
+
+.empty-state {
+  text-align: center;
+  padding: var(--space-32) var(--space-16);
+  color: var(--color-text-secondary);
+}
+
+.empty-state-icon {
+  font-size: 48px;
+  margin-bottom: var(--space-16);
+}
+
+.error-message {
+  background-color: rgba(var(--color-error-rgb), 0.1);
+  color: var(--color-error);
+  padding: var(--space-12) var(--space-16);
+  border-radius: var(--radius-base);
+  margin-bottom: var(--space-16);
+  font-size: var(--font-size-sm);
+  border: 1px solid rgba(var(--color-error-rgb), 0.3);
+}
+
+.hidden {
+  display: none;
+}
+
+.projects-list {
+  margin-bottom: var(--space-24);
+}
+
+.projects-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.projects-table th {
+  background: var(--color-background);
+  padding: var(--space-12) var(--space-16);
+  text-align: left;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+  border-bottom: 2px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.projects-table td {
+  padding: var(--space-16);
+  border-bottom: 1px solid var(--color-card-border);
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+}
+
+.projects-table tbody tr {
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.projects-table tbody tr:hover {
+  background-color: var(--color-secondary);
+}
+
+.slider-input {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 8px;
+  background: var(--color-secondary);
+  border-radius: var(--radius-full);
+  outline: none;
+  cursor: pointer;
+}
+
+.slider-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: var(--color-primary);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-standard);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.slider-input::-webkit-slider-thumb:hover {
+  background: var(--color-primary-hover);
+  transform: scale(1.1);
+}
+
+.slider-input::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: var(--color-primary);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  transition: all var(--duration-fast) var(--ease-standard);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.slider-input::-moz-range-thumb:hover {
+  background: var(--color-primary-hover);
+  transform: scale(1.1);
+}
+
+.slider-input:focus::-webkit-slider-thumb {
+  box-shadow: var(--focus-ring);
+}
+
+.slider-input:focus::-moz-range-thumb {
+  box-shadow: var(--focus-ring);
+}
+
+.view-toggle-btn {
+  transition: all var(--duration-fast) var(--ease-standard);
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    padding: var(--space-16);
+  }
+  
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .modal {
+    max-height: 100vh;
+    border-radius: 0;
+  }
+  
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
+    </style>
+</head>
+<body>
+    <div id="app" class="app-container">
+        <!-- Dashboard View -->
+        <div id="dashboardView">
+            <div class="app-header">
+                <h1 class="app-title">Gerenciamento de Obras</h1>
+                <button class="btn btn--primary" onclick="openNewProjectModal()">+ Novo Projeto</button>
+            </div>
+            
+            <!-- Filters Section -->
+            <div class="filters-section card" style="padding: var(--space-20); margin-bottom: var(--space-20);">
+                <div class="filters-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-16); flex-wrap: wrap; gap: var(--space-12);">
+                    <h3 style="margin: 0; font-size: var(--font-size-lg);">Filtros</h3>
+                    <div class="view-toggle" style="display: flex; gap: var(--space-8); background: var(--color-secondary); padding: var(--space-4); border-radius: var(--radius-base);">
+                        <button class="btn btn--sm view-toggle-btn active" onclick="setViewMode('card')" id="cardViewBtn" style="background: var(--color-primary); color: var(--color-btn-primary-text);">📇 Cartões</button>
+                        <button class="btn btn--sm view-toggle-btn" onclick="setViewMode('list')" id="listViewBtn" style="background: transparent; color: var(--color-text);">📋 Lista</button>
+                    </div>
+                </div>
+                <div class="filters-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-12);">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="form-label" for="filterClient">Nome do Cliente</label>
+                        <input type="text" id="filterClient" class="form-control" placeholder="Buscar cliente..." oninput="applyFilters()">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="form-label" for="filterProjectNumber">Número do Projeto</label>
+                        <input type="text" id="filterProjectNumber" class="form-control" placeholder="Buscar número..." oninput="applyFilters()">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="form-label" for="filterSalesperson">Vendedor</label>
+                        <select id="filterSalesperson" class="form-control" onchange="applyFilters()">
+                            <option value="">Todos</option>
+                            <option value="Mário Nunes">Mário Nunes</option>
+                            <option value="Agnaldo Silva">Agnaldo Silva</option>
+                            <option value="Lucas Alves">Lucas Alves</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="filterCount" style="margin-top: var(--space-12); font-size: var(--font-size-sm); color: var(--color-text-secondary);"></div>
+            </div>
+            
+            <div id="projectsContainer" class="projects-grid">
+                <!-- Projects will be rendered here -->
+            </div>
+            
+            <div id="emptyState" class="empty-state hidden">
+                <div class="empty-state-icon">🏗️</div>
+                <h3>Nenhum projeto cadastrado</h3>
+                <p>Clique em "Novo Projeto" para começar</p>
+            </div>
+        </div>
+
+        <!-- Detail View -->
+        <div id="detailView" class="detail-view hidden">
+            <div class="detail-header">
+                <button class="btn btn--secondary" onclick="showDashboard()">← Voltar</button>
+                <div class="detail-actions">
+                    <button class="btn btn--primary" onclick="openEditModal()">Editar</button>
+                    <button class="btn btn--danger" onclick="showDeleteConfirmation()">Excluir</button>
+                </div>
+            </div>
+            
+            <div class="card detail-card">
+                <h2 id="detailProjectName" style="margin-bottom: var(--space-24);"></h2>
+                
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <div class="detail-label">Número do Projeto</div>
+                        <div class="detail-value" id="detailProjectNumber"></div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Vendedor Responsável</div>
+                        <div class="detail-value" id="detailVendedor"></div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Técnico Responsável</div>
+                        <div class="detail-value" id="detailTecnico"></div>
+                    </div>
+                </div>
+                
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <div class="detail-label">Data de Início</div>
+                        <div class="detail-value" id="detailDataInicio"></div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Data Final</div>
+                        <div class="detail-value" id="detailDataFinal"></div>
+                    </div>
+                </div>
+                
+                <div class="detail-item" style="margin-top: var(--space-16);">
+                    <div class="detail-label">Endereço</div>
+                    <div class="detail-value" id="detailEndereco"></div>
+                </div>
+                
+                <div class="progress-bar-container" style="margin-top: var(--space-24);">
+                    <div class="progress-label">
+                        <span>Progresso</span>
+                        <span id="detailProgress">0/12</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="detailProgressBar" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card detail-card">
+                <h3 style="margin-bottom: var(--space-16);">Status do Projeto</h3>
+                <div id="detailStatusList"></div>
+            </div>
+        </div>
+
+        <!-- Modal for Add/Edit Project -->
+        <div id="projectModal" class="modal-overlay hidden" onclick="closeModalOnOverlay(event)">
+            <div class="modal" onclick="event.stopPropagation()">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="modalTitle">Novo Projeto</h2>
+                    <button class="modal-close" onclick="closeProjectModal()">&times;</button>
+                </div>
+                
+                <div class="modal-body">
+                    <div id="formError" class="error-message hidden"></div>
+                    
+                    <form id="projectForm" onsubmit="handleFormSubmit(event)">
+                        <div class="form-grid">
+                            <div class="form-group form-group-full">
+                                <label class="form-label" for="nome">Nome do Cliente *</label>
+                                <input type="text" id="nome" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="numeroProjeto">Número do Projeto *</label>
+                                <input type="text" id="numeroProjeto" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group form-group-full">
+                                <label class="form-label" for="endereco">Endereço *</label>
+                                <textarea id="endereco" class="form-control" required></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="dataInicio">Data de Início *</label>
+                                <input type="date" id="dataInicio" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="dataFinal">Data Final *</label>
+                                <input type="date" id="dataFinal" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="vendedor">Vendedor Responsável *</label>
+                                <select id="vendedor" class="form-control" required>
+                                    <option value="">Selecione...</option>
+                                    <option value="Mário Nunes">Mário Nunes</option>
+                                    <option value="Agnaldo Silva">Agnaldo Silva</option>
+                                    <option value="Lucas Alves">Lucas Alves</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="tecnico">Técnico Responsável *</label>
+                                <select id="tecnico" class="form-control" required>
+                                    <option value="">Selecione...</option>
+                                    <option value="Italo">Italo</option>
+                                    <option value="Patrick">Patrick</option>
+                                    <option value="Denio">Denio</option>
+                                    <option value="Sader">Sader</option>
+                                    <option value="Raphael">Raphael</option>
+                                    <option value="Valdinei">Valdinei</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="status-checklist" id="statusChecklistForm">
+                            <h4>Status do Projeto</h4>
+                            <div id="statusFormList"></div>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn--secondary" onclick="closeProjectModal()">Cancelar</button>
+                    <button type="submit" form="projectForm" class="btn btn--primary" id="submitBtn">Salvar Projeto</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete Confirmation Modal -->
+        <div id="deleteModal" class="modal-overlay hidden" onclick="closeDeleteModalOnOverlay(event)">
+            <div class="modal" onclick="event.stopPropagation()" style="max-width: 500px;">
+                <div class="modal-header">
+                    <h2 class="modal-title">Confirmar Exclusão</h2>
+                    <button class="modal-close" onclick="closeDeleteModal()">&times;</button>
+                </div>
+                
+                <div class="modal-body">
+                    <p style="margin-bottom: var(--space-16); color: var(--color-text);">Tem certeza que deseja excluir este projeto?</p>
+                    <div style="background: var(--color-bg-4); padding: var(--space-16); border-radius: var(--radius-base); border: 1px solid rgba(var(--color-error-rgb), 0.2);">
+                        <div style="font-size: var(--font-size-sm); color: var(--color-text-secondary); margin-bottom: var(--space-4);">Projeto</div>
+                        <div style="font-weight: var(--font-weight-semibold); color: var(--color-text);" id="deleteProjectNumber"></div>
+                        <div style="font-size: var(--font-size-base); color: var(--color-text); margin-top: var(--space-4);" id="deleteProjectName"></div>
+                    </div>
+                    <p style="margin-top: var(--space-16); font-size: var(--font-size-sm); color: var(--color-error);">⚠️ Esta ação não pode ser desfeita.</p>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn--secondary" onclick="closeDeleteModal()">Cancelar</button>
+                    <button type="button" class="btn btn--danger" onclick="confirmDeleteProject()">Confirmar Exclusão</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data Storage
+        let projects = [];
+        let currentProjectId = null;
+        let editingProjectId = null;
+        let nextId = 1;
+        let currentViewMode = 'card'; // 'card' or 'list'
+        let filteredProjects = [];
+
+        // Status Reports List
+        const statusReports = [
+            'Vistoria Infraestrutura',
+            'Passagem de cabos/Identificação de Cabos',
+            'Verificar Projeto Marcenaria',
+            'Vistoria Corte e Direcionamento de Cabos itens Teto',
+            'Corte e Direcionamento de Cabos itens Teto',
+            'Instalação de Automação',
+            'Programação Iluminação',
+            'Vistoria Marcenaria',
+            'Instalação de Itens de Teto',
+            'Instalação de A/V, Segurança, Rede',
+            'Programação A/V',
+            'Entrega para Cliente'
+        ];
+
+        // Initialize status reports with new structure
+        function initializeStatusReports() {
+            return statusReports.map(name => ({
+                name: name,
+                percentage: 0,
+                date: '',
+                observations: ''
+            }));
+        }
+
+        // Initialize App
+        function initApp() {
+            applyFilters();
+            renderStatusForm();
+        }
+
+        // Set View Mode
+        function setViewMode(mode) {
+            currentViewMode = mode;
+            
+            const cardBtn = document.getElementById('cardViewBtn');
+            const listBtn = document.getElementById('listViewBtn');
+            
+            if (mode === 'card') {
+                cardBtn.style.background = 'var(--color-primary)';
+                cardBtn.style.color = 'var(--color-btn-primary-text)';
+                listBtn.style.background = 'transparent';
+                listBtn.style.color = 'var(--color-text)';
+            } else {
+                listBtn.style.background = 'var(--color-primary)';
+                listBtn.style.color = 'var(--color-btn-primary-text)';
+                cardBtn.style.background = 'transparent';
+                cardBtn.style.color = 'var(--color-text)';
+            }
+            
+            renderProjects();
+        }
+
+        // Apply Filters
+        function applyFilters() {
+            const clientFilter = document.getElementById('filterClient').value.toLowerCase().trim();
+            const projectFilter = document.getElementById('filterProjectNumber').value.toLowerCase().trim();
+            const salespersonFilter = document.getElementById('filterSalesperson').value;
+            
+            filteredProjects = projects.filter(project => {
+                const matchesClient = !clientFilter || project.nome.toLowerCase().includes(clientFilter);
+                const matchesProject = !projectFilter || project.numeroProjeto.toLowerCase().includes(projectFilter);
+                const matchesSalesperson = !salespersonFilter || project.vendedor === salespersonFilter;
+                
+                return matchesClient && matchesProject && matchesSalesperson;
+            });
+            
+            updateFilterCount();
+            renderProjects();
+        }
+
+        // Update Filter Count
+        function updateFilterCount() {
+            const countDiv = document.getElementById('filterCount');
+            if (projects.length === 0) {
+                countDiv.textContent = '';
+            } else if (filteredProjects.length === projects.length) {
+                countDiv.textContent = `Mostrando todos os ${projects.length} projeto${projects.length !== 1 ? 's' : ''}`;
+            } else {
+                countDiv.textContent = `Mostrando ${filteredProjects.length} de ${projects.length} projeto${projects.length !== 1 ? 's' : ''}`;
+            }
+        }
+
+        // Format date for display
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const date = new Date(dateString + 'T00:00:00');
+            return date.toLocaleDateString('pt-BR');
+        }
+
+        // Render Projects Grid
+        function renderProjects() {
+            const container = document.getElementById('projectsContainer');
+            const emptyState = document.getElementById('emptyState');
+            
+            if (projects.length === 0) {
+                container.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+            
+            if (filteredProjects.length === 0) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🔍</div><h3>Nenhum projeto encontrado</h3><p>Tente ajustar os filtros de busca</p></div>';
+                emptyState.classList.add('hidden');
+                return;
+            }
+            
+            emptyState.classList.add('hidden');
+            
+            if (currentViewMode === 'list') {
+                container.className = 'projects-list';
+                container.innerHTML = `
+                    <div class="card" style="overflow-x: auto;">
+                        <table class="projects-table">
+                            <thead>
+                                <tr>
+                                    <th>Número</th>
+                                    <th>Cliente</th>
+                                    <th>Endereço</th>
+                                    <th>Data Início</th>
+                                    <th>Data Final</th>
+                                    <th>Vendedor</th>
+                                    <th>Técnico</th>
+                                    <th>Progresso</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${filteredProjects.map(project => {
+                                    const avgPercentage = project.status.reduce((sum, s) => sum + (s.percentage || 0), 0) / statusReports.length;
+                                    return `
+                                        <tr onclick="showProjectDetail(${project.id})" style="cursor: pointer;">
+                                            <td><strong>#${project.numeroProjeto}</strong></td>
+                                            <td>${project.nome}</td>
+                                            <td style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${project.endereco}</td>
+                                            <td>${formatDate(project.dataInicio)}</td>
+                                            <td>${formatDate(project.dataFinal)}</td>
+                                            <td>${project.vendedor}</td>
+                                            <td>${project.tecnico}</td>
+                                            <td>
+                                                <div style="display: flex; align-items: center; gap: var(--space-8); min-width: 120px;">
+                                                    <div class="progress-bar" style="flex: 1;">
+                                                        <div class="progress-fill" style="width: ${avgPercentage}%"></div>
+                                                    </div>
+                                                    <span style="font-size: var(--font-size-sm); font-weight: var(--font-weight-semibold); color: var(--color-primary); min-width: 35px;">${Math.round(avgPercentage)}%</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    `;
+                                }).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.className = 'projects-grid';
+            container.innerHTML = filteredProjects.map(project => {
+                const avgPercentage = project.status.reduce((sum, s) => sum + (s.percentage || 0), 0) / statusReports.length;
+                const progressPercent = avgPercentage;
+                
+                return `
+                    <div class="card project-card" onclick="showProjectDetail(${project.id})">
+                        <div class="project-card-header">
+                            <div>
+                                <div class="project-number">Projeto #${project.numeroProjeto}</div>
+                                <h3 class="project-name">${project.nome}</h3>
+                            </div>
+                        </div>
+                        <div class="project-info">📍 ${project.endereco.substring(0, 50)}${project.endereco.length > 50 ? '...' : ''}</div>
+                        <div class="project-info">👤 ${project.vendedor}</div>
+                        <div class="project-info">🔧 ${project.tecnico}</div>
+                        <div class="project-info">📅 ${formatDate(project.dataInicio)} - ${formatDate(project.dataFinal)}</div>
+                        <div class="progress-bar-container">
+                            <div class="progress-label">
+                                <span>Progresso</span>
+                                <span>${Math.round(progressPercent)}%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${progressPercent}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Show Dashboard
+        function showDashboard() {
+            document.getElementById('dashboardView').classList.remove('hidden');
+            document.getElementById('detailView').classList.add('hidden');
+            currentProjectId = null;
+        }
+
+        // Show Project Detail
+        function showProjectDetail(projectId) {
+            const project = projects.find(p => p.id === projectId);
+            if (!project) return;
+            
+            currentProjectId = projectId;
+            
+            document.getElementById('detailProjectName').textContent = project.nome;
+            document.getElementById('detailProjectNumber').textContent = project.numeroProjeto;
+            document.getElementById('detailVendedor').textContent = project.vendedor;
+            document.getElementById('detailTecnico').textContent = project.tecnico;
+            document.getElementById('detailDataInicio').textContent = formatDate(project.dataInicio);
+            document.getElementById('detailDataFinal').textContent = formatDate(project.dataFinal);
+            document.getElementById('detailEndereco').textContent = project.endereco;
+            
+            const avgPercentage = project.status.reduce((sum, s) => sum + (s.percentage || 0), 0) / statusReports.length;
+            const progressPercent = avgPercentage;
+            
+            document.getElementById('detailProgress').textContent = `${Math.round(progressPercent)}%`;
+            document.getElementById('detailProgressBar').style.width = `${progressPercent}%`;
+            
+            renderDetailStatus(project);
+            
+            document.getElementById('dashboardView').classList.add('hidden');
+            document.getElementById('detailView').classList.remove('hidden');
+        }
+
+        // Render Detail Status
+        function renderDetailStatus(project) {
+            const container = document.getElementById('detailStatusList');
+            container.innerHTML = project.status.map((status, index) => `
+                <div class="status-report-item">
+                    <div class="status-report-header">
+                        <label class="status-report-name">${status.name}</label>
+                        <span class="status-percentage-display">${status.percentage || 0}%</span>
+                    </div>
+                    <div class="progress-bar" style="margin: var(--space-8) 0;">
+                        <div class="progress-fill" style="width: ${status.percentage || 0}%"></div>
+                    </div>
+                    <div class="status-report-details">
+                        <div class="status-detail-item">
+                            <span class="status-detail-label">Data:</span>
+                            <span class="status-detail-value">${status.date ? formatDate(status.date) : '—'}</span>
+                        </div>
+                        ${status.observations ? `
+                        <div class="status-detail-item">
+                            <span class="status-detail-label">Observação:</span>
+                            <span class="status-detail-value">${status.observations}</span>
+                        </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Update status percentage from detail view (not used in read-only detail view)
+        function updateStatusPercentage(index, value) {
+            const project = projects.find(p => p.id === currentProjectId);
+            if (project) {
+                project.status[index].percentage = Math.max(0, Math.min(100, parseInt(value) || 0));
+                showProjectDetail(currentProjectId);
+                renderProjects();
+            }
+        }
+
+        // Open New Project Modal
+        function openNewProjectModal() {
+            editingProjectId = null;
+            document.getElementById('modalTitle').textContent = 'Novo Projeto';
+            document.getElementById('submitBtn').textContent = 'Salvar Projeto';
+            document.getElementById('projectForm').reset();
+            document.getElementById('formError').classList.add('hidden');
+            
+            // Initialize empty status reports
+            renderStatusForm();
+            
+            document.getElementById('projectModal').classList.remove('hidden');
+        }
+
+        // Open Edit Modal
+        function openEditModal() {
+            const project = projects.find(p => p.id === currentProjectId);
+            if (!project) return;
+            
+            editingProjectId = currentProjectId;
+            document.getElementById('modalTitle').textContent = 'Editar Projeto';
+            document.getElementById('submitBtn').textContent = 'Atualizar Projeto';
+            document.getElementById('formError').classList.add('hidden');
+            
+            // Fill form with project data
+            document.getElementById('nome').value = project.nome;
+            document.getElementById('numeroProjeto').value = project.numeroProjeto;
+            document.getElementById('endereco').value = project.endereco;
+            document.getElementById('dataInicio').value = project.dataInicio;
+            document.getElementById('dataFinal').value = project.dataFinal;
+            document.getElementById('vendedor').value = project.vendedor;
+            document.getElementById('tecnico').value = project.tecnico;
+            
+            // Set status report values
+            project.status.forEach((status, index) => {
+                const percentInput = document.getElementById(`statusPercentage-${index}`);
+                const dateInput = document.getElementById(`statusDate-${index}`);
+                const obsInput = document.getElementById(`statusObs-${index}`);
+                
+                if (percentInput) percentInput.value = status.percentage || 0;
+                if (dateInput) dateInput.value = status.date || '';
+                if (obsInput) obsInput.value = status.observations || '';
+                
+                updateStatusBar(index);
+            });
+            
+            document.getElementById('projectModal').classList.remove('hidden');
+        }
+
+        // Close Modal
+        function closeProjectModal() {
+            document.getElementById('projectModal').classList.add('hidden');
+            editingProjectId = null;
+        }
+
+        // Close Modal on Overlay Click
+        function closeModalOnOverlay(event) {
+            if (event.target.id === 'projectModal') {
+                closeProjectModal();
+            }
+            
+            closeDeleteModal();
+        }
+
+        // Render Status Form
+        function renderStatusForm() {
+            const container = document.getElementById('statusFormList');
+            container.innerHTML = statusReports.map((status, index) => `
+                <div class="status-report-form-item">
+                    <div class="status-report-form-header">
+                        <label class="form-label" style="margin-bottom: var(--space-4);">${status}</label>
+                    </div>
+                    <div class="status-form-grid">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label" for="statusPercentage-${index}">
+                                Porcentagem 
+                                <span id="statusPercentValue-${index}" style="font-weight: var(--font-weight-semibold); color: var(--color-primary);">0%</span>
+                            </label>
+                            <input type="range" 
+                                   id="statusPercentage-${index}" 
+                                   class="slider-input" 
+                                   min="0" 
+                                   max="100" 
+                                   value="0"
+                                   oninput="updateStatusBar(${index})"
+                                   style="width: 100%;">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label" for="statusDate-${index}">Data</label>
+                            <input type="date" 
+                                   id="statusDate-${index}" 
+                                   class="form-control">
+                        </div>
+                    </div>
+                    <div class="progress-bar" style="margin: var(--space-8) 0;">
+                        <div class="progress-fill" id="statusBar-${index}" style="width: 0%"></div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0; margin-top: var(--space-8);">
+                        <label class="form-label" for="statusObs-${index}">Observação</label>
+                        <textarea id="statusObs-${index}" 
+                                  class="form-control" 
+                                  rows="2" 
+                                  style="min-height: 60px;"></textarea>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Update status bar in form
+        function updateStatusBar(index) {
+            const percentInput = document.getElementById(`statusPercentage-${index}`);
+            const statusBar = document.getElementById(`statusBar-${index}`);
+            const percentValue = document.getElementById(`statusPercentValue-${index}`);
+            
+            if (percentInput && statusBar) {
+                let value = parseInt(percentInput.value) || 0;
+                value = Math.max(0, Math.min(100, value));
+                percentInput.value = value;
+                statusBar.style.width = value + '%';
+                if (percentValue) {
+                    percentValue.textContent = value + '%';
+                }
+            }
+        }
+
+        // Handle Form Submit
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            
+            const formData = {
+                nome: document.getElementById('nome').value.trim(),
+                numeroProjeto: document.getElementById('numeroProjeto').value.trim(),
+                endereco: document.getElementById('endereco').value.trim(),
+                dataInicio: document.getElementById('dataInicio').value,
+                dataFinal: document.getElementById('dataFinal').value,
+                vendedor: document.getElementById('vendedor').value,
+                tecnico: document.getElementById('tecnico').value
+            };
+            
+            // Validate dates
+            if (formData.dataInicio && formData.dataFinal) {
+                if (new Date(formData.dataFinal) < new Date(formData.dataInicio)) {
+                    showError('A data final deve ser posterior à data de início.');
+                    return;
+                }
+            }
+            
+            // Get status report data
+            const status = statusReports.map((name, index) => {
+                const percentInput = document.getElementById(`statusPercentage-${index}`);
+                const dateInput = document.getElementById(`statusDate-${index}`);
+                const obsInput = document.getElementById(`statusObs-${index}`);
+                
+                return {
+                    name: name,
+                    percentage: percentInput ? (parseInt(percentInput.value) || 0) : 0,
+                    date: dateInput ? dateInput.value : '',
+                    observations: obsInput ? obsInput.value.trim() : ''
+                };
+            });
+            
+            if (editingProjectId) {
+                // Update existing project
+                const projectIndex = projects.findIndex(p => p.id === editingProjectId);
+                if (projectIndex !== -1) {
+                    projects[projectIndex] = {
+                        ...projects[projectIndex],
+                        ...formData,
+                        status: status
+                    };
+                }
+                showProjectDetail(editingProjectId);
+            } else {
+                // Create new project
+                const newProject = {
+                    id: nextId++,
+                    ...formData,
+                    status: status
+                };
+                projects.push(newProject);
+                showDashboard();
+            }
+            
+            applyFilters();
+            closeProjectModal();
+        }
+
+        // Show Error
+        function showError(message) {
+            const errorDiv = document.getElementById('formError');
+            errorDiv.textContent = message;
+            errorDiv.classList.remove('hidden');
+        }
+
+        // Show Delete Confirmation
+        function showDeleteConfirmation() {
+            if (!currentProjectId) return;
+            
+            const project = projects.find(p => p.id === currentProjectId);
+            if (!project) return;
+            
+            document.getElementById('deleteProjectNumber').textContent = `#${project.numeroProjeto}`;
+            document.getElementById('deleteProjectName').textContent = project.nome;
+            document.getElementById('deleteModal').classList.remove('hidden');
+        }
+
+        // Close Delete Modal
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').classList.add('hidden');
+        }
+
+        // Close Delete Modal on Overlay Click
+        function closeDeleteModalOnOverlay(event) {
+            if (event.target.id === 'deleteModal') {
+                closeDeleteModal();
+            }
+        }
+
+        // Confirm Delete Project
+        function confirmDeleteProject() {
+            if (!currentProjectId) return;
+            {
+                projects = projects.filter(p => p.id !== currentProjectId);
+                applyFilters();
+                showDashboard();
+            }
+        }
+
+        // Initialize on load
+        initApp();
+    </script>
+</body>
+</html>
